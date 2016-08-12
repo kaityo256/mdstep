@@ -7,7 +7,7 @@
 //------------------------------------------------------------------------
 MeshList::MeshList(void){
   const double SL = CUTOFF+MARGIN;
-  m = static_cast<int>(L/SL);
+  m = static_cast<int>(L/SL) - 1;
   mesh_size = static_cast<double>(L)/m;
   number_of_mesh = m*m*m;
   count.resize(number_of_mesh);
