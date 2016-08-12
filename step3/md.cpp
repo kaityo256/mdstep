@@ -163,7 +163,14 @@ void
 MD::run(void) {
   makeconf();
   mesh->set_number_of_atoms(vars->number_of_atoms());
-  mesh->make_mesh(vars);
+  mesh->make_pair(vars,pairs);
+  for(auto &p:pairs){
+    if(p.i < p.j){
+      printf("%03d %03d\n",p.i,p.j);
+    }else{
+      printf("%03d %03d\n",p.j,p.i);
+    }
+  }
   return;
   //make_pair();
   for(auto &p: pairs){
