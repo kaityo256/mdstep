@@ -162,6 +162,7 @@ MD::calculate(void) {
 void
 MD::run(void) {
   makeconf();
+  mesh->set_number_of_atoms(vars->number_of_atoms());
   mesh->make_mesh(vars);
   return;
   //make_pair();

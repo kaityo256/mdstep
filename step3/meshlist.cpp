@@ -19,8 +19,10 @@ MeshList::make_mesh(Variables *vars){
   Atom *atoms = vars->atoms.data();
   const int pn = vars->number_of_atoms();
   std::vector<int> particle_position(pn);
+  std::vector<int> pointer(pn);
   std::fill(particle_position.begin(),particle_position.end(),0);
   std::fill(count.begin(),count.end(),0);
+  std::fill(pointer.begin(),pointer.end(),0);
 
   double im = 1.0/mesh_size;
   for(int i=0;i<pn;i++){
@@ -31,6 +33,19 @@ MeshList::make_mesh(Variables *vars){
     assert(index >=0);
     assert(index < number_of_mesh);
     count[index]++;
+    particle_position[i] = index;
+  }
+  index[0] = 0;
+  int sum = 0;
+  for(int i=0;i<number_of_mesh-1;i++){
+    sum += count[i];
+    index[i+1] = sum;
+  }
+  for(int i=0;i<pn;i++){
+    int pos = particle_position[i];
+    int j = index[pos] + pointer[pos];
+    sorted_buffer[j] = i;
+    ++pointer[pos];
   }
 }
 //------------------------------------------------------------------------
