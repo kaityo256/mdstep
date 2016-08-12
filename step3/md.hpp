@@ -1,6 +1,7 @@
 #pragma once
 #include "variables.hpp"
 #include "observer.hpp"
+#include "meshlist.hpp"
 //------------------------------------------------------------------------
 struct Pair{
   int i,j;
@@ -10,6 +11,7 @@ class MD {
 private:
   Variables *vars;
   Observer *obs;
+  MeshList *mesh;
   std::vector<Pair> pairs;
   double margin_length;
   void makeconf(void);

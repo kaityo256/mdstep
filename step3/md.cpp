@@ -10,12 +10,14 @@
 MD::MD(void) {
   vars = new Variables();
   obs = new Observer();
+  mesh = new MeshList();
   margin_length = 0.0;
 }
 //------------------------------------------------------------------------
 MD::~MD(void) {
   delete vars;
   delete obs;
+  delete mesh;
 }
 //------------------------------------------------------------------------
 void
@@ -159,7 +161,13 @@ MD::calculate(void) {
 //------------------------------------------------------------------------
 void
 MD::run(void) {
+  return;
   makeconf();
+  make_pair();
+  for(auto &p: pairs){
+    printf("%03d %03d\n",p.i,p.j);
+  }
+  return;
   const int STEPS = 10000;
   const int OBSERVE = 100;
   for (int i = 0; i < STEPS; i++) {
