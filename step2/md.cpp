@@ -40,9 +40,8 @@ MD::makeconf(void) {
 void
 MD::make_pair(void){
   pairs.clear();
-  margin_length = MARGIN;
   const int pn = vars->number_of_atoms();
-  Atom *atoms = &(vars->atoms[0]);
+  Atom *atoms = vars->atoms.data();
   for (int i = 0; i < pn - 1; i++) {
     for (int j = i + 1; j < pn; j++) {
       double dx = atoms[j].qx - atoms[i].qx;
@@ -69,6 +68,7 @@ MD::check_pairlist(void){
   double vmax = sqrt(vmax2);
   margin_length -= vmax*2.0*dt;
   if(margin_length < 0.0){
+    margin_length = MARGIN;
     make_pair();
   }
 }
@@ -86,7 +86,7 @@ MD::update_position(void) {
 void
 MD::calculate_force(void) {
   const int pn = vars->number_of_atoms();
-  Atom *atoms = &(vars->atoms[0]);
+  Atom *atoms = vars->atoms.data();
   for (int i = 0; i < pn - 1; i++) {
     for (int j = i + 1; j < pn; j++) {
       double dx = atoms[j].qx - atoms[i].qx;
@@ -110,7 +110,7 @@ MD::calculate_force(void) {
 void
 MD::calculate_force_pair(void) {
   const int pp = pairs.size();
-  Atom *atoms = &(vars->atoms[0]);
+  Atom *atoms = vars->atoms.data();
   for(int k=0;k<pp;k++){
     const int i = pairs[k].i;
     const int j = pairs[k].j;

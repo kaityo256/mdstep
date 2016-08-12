@@ -18,7 +18,7 @@ double
 Observer::potential_energy(Variables *vars) {
   double v = 0.0;
   const int pn = vars->number_of_atoms();
-  Atom *atoms = &(vars->atoms[0]);
+  Atom *atoms = vars->atoms.data();
   for (int i = 0; i < pn - 1; i++) {
     for (int j = i + 1; j < pn; j++) {
       double dx = atoms[j].qx - atoms[i].qx;
