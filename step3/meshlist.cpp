@@ -16,6 +16,7 @@ MeshList::MeshList(void){
 //------------------------------------------------------------------------
 void
 MeshList::make_pair(Variables *vars, std::vector<Pair> &pairs){
+  pairs.clear();
   Atom *atoms = vars->atoms.data();
   const int pn = vars->number_of_atoms();
   std::vector<int> particle_position(pn);
@@ -29,7 +30,19 @@ MeshList::make_pair(Variables *vars, std::vector<Pair> &pairs){
     int ix = static_cast<int>(atoms[i].qx * im);
     int iy = static_cast<int>(atoms[i].qy * im);
     int iz = static_cast<int>(atoms[i].qz * im);
+    if (ix < 0) ix += m;
+    if (ix >=m) ix -= m;
+    if (iy < 0) iy += m;
+    if (iy >=m) iy -= m;
+    if (iz < 0) iz += m;
+    if (iz >=m) iz -= m;
+
     int index = ix + iy*m + iz *m*m;
+    /*
+    if(index >= number_of_mesh){
+      printf("%d %d %d %d\n",ix,iy,iz,number_of_mesh);
+    }
+    */
     assert(index >=0);
     assert(index < number_of_mesh);
     count[index]++;

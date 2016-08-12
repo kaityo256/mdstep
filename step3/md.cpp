@@ -71,7 +71,7 @@ MD::check_pairlist(void){
   margin_length -= vmax*2.0*dt;
   if(margin_length < 0.0){
     margin_length = MARGIN;
-    make_pair();
+    mesh->make_pair(vars,pairs);
   }
 }
 //------------------------------------------------------------------------
@@ -152,7 +152,6 @@ void
 MD::calculate(void) {
   update_position();
   check_pairlist();
-  //make_pair();
   calculate_force_pair();
   update_position();
   periodic();
@@ -163,20 +162,6 @@ void
 MD::run(void) {
   makeconf();
   mesh->set_number_of_atoms(vars->number_of_atoms());
-  mesh->make_pair(vars,pairs);
-  for(auto &p:pairs){
-    if(p.i < p.j){
-      printf("%03d %03d\n",p.i,p.j);
-    }else{
-      printf("%03d %03d\n",p.j,p.i);
-    }
-  }
-  return;
-  //make_pair();
-  for(auto &p: pairs){
-    printf("%03d %03d\n",p.i,p.j);
-  }
-  return;
   const int STEPS = 10000;
   const int OBSERVE = 100;
   for (int i = 0; i < STEPS; i++) {
