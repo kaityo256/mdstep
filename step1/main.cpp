@@ -3,7 +3,7 @@
 #include "md.hpp"
 //------------------------------------------------------------------------
 int
-main(void){
+main(void) {
   MD *md = new MD();
   md->run();
   delete md;
