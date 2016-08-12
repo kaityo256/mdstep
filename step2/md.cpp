@@ -113,7 +113,7 @@ MD::calculate_force_pair(void) {
   Atom *atoms = &(vars->atoms[0]);
   for(int k=0;k<pp;k++){
     const int i = pairs[k].i;
-    const int j = pairs[k].i;
+    const int j = pairs[k].j;
     double dx = atoms[j].qx - atoms[i].qx;
     double dy = atoms[j].qy - atoms[i].qy;
     double dz = atoms[j].qz - atoms[i].qz;
@@ -150,7 +150,8 @@ void
 MD::calculate(void) {
   update_position();
   check_pairlist();
-  calculate_force();
+  //make_pair();
+  calculate_force_pair();
   update_position();
   periodic();
   vars->time += dt;
