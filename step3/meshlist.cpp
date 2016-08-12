@@ -38,11 +38,6 @@ MeshList::make_pair(Variables *vars, std::vector<Pair> &pairs){
     if (iz >=m) iz -= m;
 
     int index = ix + iy*m + iz *m*m;
-    /*
-    if(index >= number_of_mesh){
-      printf("%d %d %d %d\n",ix,iy,iz,number_of_mesh);
-    }
-    */
     assert(index >=0);
     assert(index < number_of_mesh);
     count[index]++;
