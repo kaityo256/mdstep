@@ -161,9 +161,10 @@ MD::calculate(void) {
 //------------------------------------------------------------------------
 void
 MD::run(void) {
-  return;
   makeconf();
-  make_pair();
+  mesh->make_mesh(vars);
+  return;
+  //make_pair();
   for(auto &p: pairs){
     printf("%03d %03d\n",p.i,p.j);
   }
