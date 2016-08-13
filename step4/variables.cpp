@@ -93,7 +93,7 @@ Variables::make_neighbor_list(std::vector<Pair> &pairs){
     neighbor_list[pos] = p.j;
     pointer[p.i]++;
   }
-
+/*
   for(int i=0;i<pn;i++){
     for(int n=0;n<j_count[i];n++){
       int pos = i_position[i] + n;
@@ -102,5 +102,9 @@ Variables::make_neighbor_list(std::vector<Pair> &pairs){
       printf("%03d %03d\n",i,j);
     }
   }
+  for(auto &p:pairs){
+    printf("%03d %03d\n",p.i,p.j);
+  }
+  */
 }
 //------------------------------------------------------------------------
