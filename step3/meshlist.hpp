@@ -3,10 +3,6 @@
 #include <vector>
 #include "variables.hpp"
 //------------------------------------------------------------------------
-struct Pair{
-  int i,j;
-};
-//------------------------------------------------------------------------
 class MeshList{
   private:
     double mesh_size;

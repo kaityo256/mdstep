@@ -167,7 +167,7 @@ MD::run(void) {
   for (int i = 0; i < STEPS; i++) {
     if ( (i % OBSERVE) == 0) {
       double k = obs->kinetic_energy(vars);
-      double v = obs->potential_energy(vars);
+      double v = obs->potential_energy(vars,pairs);
       std::cout << vars->time << " ";
       std::cout << k << " ";
       std::cout << v << " ";

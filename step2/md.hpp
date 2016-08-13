@@ -2,10 +2,6 @@
 #include "variables.hpp"
 #include "observer.hpp"
 //------------------------------------------------------------------------
-struct Pair{
-  int i,j;
-};
-//------------------------------------------------------------------------
 class MD {
 private:
   Variables *vars;
