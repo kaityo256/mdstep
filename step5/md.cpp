@@ -213,13 +213,27 @@ MD::langevin(const double aimed_temperature){
 }
 //------------------------------------------------------------------------
 void
+MD::nosehoover(const double aimed_temperature){
+  double t = obs->temperature(vars);
+  double at = aimed_temperature;
+  double tau = 0.1; 
+  vars->zeta += (t - at)/ (tau * tau)*dt;
+  for(auto &a: vars->atoms){
+    a.px -= a.px * vars->zeta*dt;
+    a.py -= a.py * vars->zeta*dt;
+    a.pz -= a.pz * vars->zeta*dt;
+  }
+}
+//------------------------------------------------------------------------
+void
 MD::calculate(void) {
   update_position();
   check_pairlist();
   calculate_force_list();
   update_position();
   //velocity_scaling(1.0);
-  langevin(1.0);
+  //langevin(1.0);
+  nosehoover(1.0);
   periodic();
   vars->time += dt;
 }

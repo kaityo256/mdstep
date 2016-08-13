@@ -21,6 +21,7 @@ private:
   void check_pairlist(void);
   void velocity_scaling(const double aimed_temperature);
   void langevin(const double aimed_temperature);
+  void nosehoover(const double aimed_temperature);
 
 public:
   MD(void);
