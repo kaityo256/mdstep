@@ -2,6 +2,7 @@
 #include <iostream>
 #include <assert.h>
 #include <math.h>
+#include <random>
 #include "md.hpp"
 #include "systemparam.hpp"
 #include "observer.hpp"
@@ -198,12 +199,27 @@ MD::velocity_scaling(const double aimed_temperature){
 }
 //------------------------------------------------------------------------
 void
+MD::langevin(const double aimed_temperature){
+  static std::mt19937 mt(1);
+  const double gamma = 1.0;
+  const double T = aimed_temperature;
+  const double D = sqrt(2.0 * gamma * T /dt);
+  std::normal_distribution<double> nd(0.0, D);
+  for(auto &a: vars->atoms){
+    a.px += (-gamma * a.px + nd(mt)) * dt;
+    a.py += (-gamma * a.py + nd(mt)) * dt;
+    a.pz += (-gamma * a.pz + nd(mt)) * dt;
+  }
+}
+//------------------------------------------------------------------------
+void
 MD::calculate(void) {
   update_position();
   check_pairlist();
   calculate_force_list();
   update_position();
   //velocity_scaling(1.0);
+  langevin(1.0);
   periodic();
   vars->time += dt;
 }
