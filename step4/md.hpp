@@ -14,6 +14,7 @@ private:
   void update_position(void);
   void calculate_force(void);
   void calculate_force_pair(void);
+  void calculate_force_list(void);
   void periodic(void);
   void calculate(void);
   void make_pair(void);

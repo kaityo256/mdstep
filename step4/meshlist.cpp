@@ -58,6 +58,7 @@ MeshList::make_pair(Variables *vars, std::vector<Pair> &pairs){
   for (int i=0;i<number_of_mesh;i++){
     search(i, vars, pairs); 
   }
+  vars->make_neighbor_list(pairs);
 }
 //------------------------------------------------------------------------
 void

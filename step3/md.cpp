@@ -161,8 +161,8 @@ MD::calculate(void) {
 void
 MD::run(void) {
   makeconf();
-  make_pair();
   mesh->set_number_of_atoms(vars->number_of_atoms());
+  mesh->make_pair(vars,pairs);
   const int STEPS = 10000;
   const int OBSERVE = 100;
   for (int i = 0; i < STEPS; i++) {

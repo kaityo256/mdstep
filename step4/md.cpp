@@ -134,6 +134,44 @@ MD::calculate_force_pair(void) {
 }
 //------------------------------------------------------------------------
 void
+MD::calculate_force_list(void) {
+  Atom *atoms = vars->atoms.data();
+  const int pn = vars->number_of_atoms();
+  int *neighbor_list = vars->neighbor_list.data();
+  int *i_position = vars->i_position.data();
+  int *j_count = vars->j_count.data();
+  for(int i=0;i<pn;i++){
+    const double qix = atoms[i].qx; 
+    const double qiy = atoms[i].qy; 
+    const double qiz = atoms[i].qz; 
+    double pix = atoms[i].px;
+    double piy = atoms[i].py;
+    double piz = atoms[i].pz;
+    const int ip = i_position[i];
+    for (int k=0;k < j_count[i]; k++){
+      const int j = neighbor_list[ip+k];
+      double dx = atoms[j].qx - qix;
+      double dy = atoms[j].qy - qiy;
+      double dz = atoms[j].qz - qiz;
+      adjust_periodic(dx, dy, dz);
+      double r2 = (dx * dx + dy * dy + dz * dz);
+      if (r2 > CL2)continue;
+      double r6 = r2 * r2 * r2;
+      double df = (24.0 * r6 - 48.0) / (r6 * r6 * r2) * dt;
+      pix += df * dx;
+      piy += df * dy;
+      piz += df * dz;
+      atoms[j].px -= df * dx;
+      atoms[j].py -= df * dy;
+      atoms[j].pz -= df * dz;
+    }
+    atoms[i].px = pix;
+    atoms[i].py = piy;
+    atoms[i].pz = piz;
+  }
+} 
+//------------------------------------------------------------------------
+void
 MD::periodic(void) {
   for (auto &a : vars->atoms) {
     if (a.qx < 0.0) a.qx += L;
@@ -152,7 +190,8 @@ void
 MD::calculate(void) {
   update_position();
   check_pairlist();
-  calculate_force_pair();
+  //calculate_force_pair();
+  calculate_force_list();
   update_position();
   periodic();
   vars->time += dt;
@@ -161,10 +200,8 @@ MD::calculate(void) {
 void
 MD::run(void) {
   makeconf();
-  make_pair();
-  vars->make_neighbor_list(pairs);
-  return;
   mesh->set_number_of_atoms(vars->number_of_atoms());
+  mesh->make_pair(vars,pairs);
   const int STEPS = 10000;
   const int OBSERVE = 100;
   for (int i = 0; i < STEPS; i++) {
