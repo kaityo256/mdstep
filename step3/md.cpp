@@ -163,7 +163,7 @@ MD::run(void) {
   makeconf();
   mesh->set_number_of_atoms(vars->number_of_atoms());
   mesh->make_pair(vars,pairs);
-  const int STEPS = 1000;
+  const int STEPS = 10000;
   const int OBSERVE = 100;
   for (int i = 0; i < STEPS; i++) {
     if ( (i % OBSERVE) == 0) {
@@ -173,7 +173,7 @@ MD::run(void) {
       std::cout << k << " ";
       std::cout << v << " ";
       std::cout << k + v << std::endl;
-      //vars->export_cdview();
+      vars->export_cdview();
     }
     calculate();
   }
