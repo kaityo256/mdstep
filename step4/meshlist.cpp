@@ -81,8 +81,13 @@ MeshList::search_other(int id, int ix, int iy, int iz, Variables *vars, std::vec
       double r2 = (dx * dx + dy * dy + dz * dz);
       if (r2 > ML2)continue;
       Pair p;
-      p.i = i; 
-      p.j = j; 
+      if (i<j){
+        p.i = i; 
+        p.j = j; 
+      }else{
+        p.i = j; 
+        p.j = i; 
+      }
       pairs.push_back(p);
     }
   }
@@ -124,8 +129,13 @@ MeshList::search(int id, Variables *vars, std::vector<Pair> &pairs){
       double r2 = (dx * dx + dy * dy + dz * dz);
       if (r2 > ML2)continue;
       Pair p;
-      p.i = i; 
-      p.j = j; 
+      if (i<j){
+        p.i = i; 
+        p.j = j; 
+      }else{
+        p.i = j; 
+        p.j = i; 
+      }
       pairs.push_back(p);
     }
   }
