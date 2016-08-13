@@ -2,6 +2,7 @@
 #include <iostream>
 #include <assert.h>
 #include <algorithm>
+#include <assert.h>
 #include "systemparam.hpp"
 #include "meshlist.hpp"
 //------------------------------------------------------------------------
@@ -9,6 +10,8 @@ MeshList::MeshList(void) {
   const double SL = CUTOFF + MARGIN;
   m = static_cast<int>(L / SL) - 1;
   mesh_size = static_cast<double>(L) / m;
+  assert(m > 2);
+  assert(mesh_size > SL);
   number_of_mesh = m * m * m;
   count.resize(number_of_mesh);
   indexes.resize(number_of_mesh);

@@ -8,7 +8,9 @@
 MeshList::MeshList(void) {
   const double SL = CUTOFF + MARGIN;
   m = static_cast<int>(L / SL) - 1;
+  assert(m > 2);
   mesh_size = static_cast<double>(L) / m;
+  assert(mesh_size > SL);
   number_of_mesh = m * m * m;
   count.resize(number_of_mesh);
   indexes.resize(number_of_mesh);
