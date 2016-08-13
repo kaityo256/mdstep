@@ -203,7 +203,7 @@ MD::calculate(void) {
   check_pairlist();
   calculate_force_list();
   update_position();
-  velocity_scaling(1.0);
+  //velocity_scaling(1.0);
   periodic();
   vars->time += dt;
 }
