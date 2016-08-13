@@ -40,7 +40,7 @@ MD::makeconf(void) {
 }
 //------------------------------------------------------------------------
 void
-MD::make_pair(void){
+MD::make_pair(void) {
   pairs.clear();
   const int pn = vars->number_of_atoms();
   Atom *atoms = vars->atoms.data();
@@ -61,17 +61,17 @@ MD::make_pair(void){
 }
 //------------------------------------------------------------------------
 void
-MD::check_pairlist(void){
+MD::check_pairlist(void) {
   double vmax2 = 0.0;
   for (auto &a : vars->atoms) {
-    double v2 = a.px*a.px + a.py*a.py + a.pz*a.pz;
+    double v2 = a.px * a.px + a.py * a.py + a.pz * a.pz;
     if (vmax2 < v2) vmax2 = v2;
   }
   double vmax = sqrt(vmax2);
-  margin_length -= vmax*2.0*dt;
-  if(margin_length < 0.0){
+  margin_length -= vmax * 2.0 * dt;
+  if (margin_length < 0.0) {
     margin_length = MARGIN;
-    mesh->make_pair(vars,pairs);
+    mesh->make_pair(vars, pairs);
   }
 }
 //------------------------------------------------------------------------
@@ -113,7 +113,7 @@ void
 MD::calculate_force_pair(void) {
   const int pp = pairs.size();
   Atom *atoms = vars->atoms.data();
-  for(int k=0;k<pp;k++){
+  for (int k = 0; k < pp; k++) {
     const int i = pairs[k].i;
     const int j = pairs[k].j;
     double dx = atoms[j].qx - atoms[i].qx;
@@ -162,13 +162,13 @@ void
 MD::run(void) {
   makeconf();
   mesh->set_number_of_atoms(vars->number_of_atoms());
-  mesh->make_pair(vars,pairs);
+  mesh->make_pair(vars, pairs);
   const int STEPS = 10000;
   const int OBSERVE = 100;
   for (int i = 0; i < STEPS; i++) {
     if ( (i % OBSERVE) == 0) {
       double k = obs->kinetic_energy(vars);
-      double v = obs->potential_energy(vars,pairs);
+      double v = obs->potential_energy(vars, pairs);
       std::cout << vars->time << " ";
       std::cout << k << " ";
       std::cout << v << " ";

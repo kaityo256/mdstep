@@ -20,7 +20,7 @@ Observer::potential_energy(Variables *vars, std::vector<Pair> &pairs) {
   const int pp = pairs.size();
   const int pn = vars->number_of_atoms();
   Atom *atoms = vars->atoms.data();
-  for(int k=0;k<pp;k++){
+  for (int k = 0; k < pp; k++) {
     const int i = pairs[k].i;
     const int j = pairs[k].j;
     double dx = atoms[j].qx - atoms[i].qx;
@@ -32,7 +32,7 @@ Observer::potential_energy(Variables *vars, std::vector<Pair> &pairs) {
     double r6 = r2 * r2 * r2;
     double r12 = r6 * r6;
     v += 4.0 * (1.0 / r12 - 1.0 / r6) + C0;
-   }
+  }
   v /= static_cast<double>(pn);
   return v;
 }

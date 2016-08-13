@@ -69,42 +69,42 @@ Variables::export_cdview(void) {
 }
 //------------------------------------------------------------------------
 void
-Variables::make_neighbor_list(std::vector<Pair> &pairs){
+Variables::make_neighbor_list(std::vector<Pair> &pairs) {
   const int pn = atoms.size();
   const int pp = pairs.size();
   neighbor_list.clear();
   neighbor_list.resize(pp);
   i_position.resize(pn);
   j_count.resize(pn);
-  std::fill(j_count.begin(),j_count.end(),0);
-  for(auto &p: pairs){
+  std::fill(j_count.begin(), j_count.end(), 0);
+  for (auto &p : pairs) {
     j_count[p.i]++;
   }
   i_position[0] = 0;
   int sum = 0;
-  for(int i=0; i < pn -1; i++){
+  for (int i = 0; i < pn - 1; i++) {
     sum += j_count[i];
-    i_position[i+1] = sum;
+    i_position[i + 1] = sum;
   }
   std::vector<int> pointer(pn);
-  std::fill(pointer.begin(),pointer.end(),0);
-  for(auto &p: pairs){
+  std::fill(pointer.begin(), pointer.end(), 0);
+  for (auto &p : pairs) {
     int pos = i_position[p.i] + pointer[p.i];
     neighbor_list[pos] = p.j;
     pointer[p.i]++;
   }
-/*
-  for(int i=0;i<pn;i++){
-    for(int n=0;n<j_count[i];n++){
-      int pos = i_position[i] + n;
-      assert(pos < pp);
-      int j = neighbor_list[pos];
-      printf("%03d %03d\n",i,j);
+  /*
+    for(int i=0;i<pn;i++){
+      for(int n=0;n<j_count[i];n++){
+        int pos = i_position[i] + n;
+        assert(pos < pp);
+        int j = neighbor_list[pos];
+        printf("%03d %03d\n",i,j);
+      }
     }
-  }
-  for(auto &p:pairs){
-    printf("%03d %03d\n",p.i,p.j);
-  }
-  */
+    for(auto &p:pairs){
+      printf("%03d %03d\n",p.i,p.j);
+    }
+    */
 }
 //------------------------------------------------------------------------
