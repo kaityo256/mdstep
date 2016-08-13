@@ -1,6 +1,6 @@
 #pragma once
 //------------------------------------------------------------------------
-const double L = 10;
+const double L = 50;
 const double dt = 0.01;
 const double CUTOFF = 2.0;
 const double MARGIN = 0.5;

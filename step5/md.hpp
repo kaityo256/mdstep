@@ -19,6 +19,7 @@ private:
   void calculate(void);
   void make_pair(void);
   void check_pairlist(void);
+  void velocity_scaling(const double aimed_temperature);
 
 public:
   MD(void);

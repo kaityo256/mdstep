@@ -187,12 +187,23 @@ MD::periodic(void) {
 }
 //------------------------------------------------------------------------
 void
+MD::velocity_scaling(const double aimed_temperature){
+  double t = obs->temperature(vars);
+  double ratio = sqrt(aimed_temperature/t);
+  for(auto &a: vars->atoms){
+    a.px *= ratio;
+    a.py *= ratio;
+    a.pz *= ratio;
+  }
+}
+//------------------------------------------------------------------------
+void
 MD::calculate(void) {
   update_position();
   check_pairlist();
-  //calculate_force_pair();
   calculate_force_list();
   update_position();
+  velocity_scaling(1.0);
   periodic();
   vars->time += dt;
 }
@@ -202,17 +213,19 @@ MD::run(void) {
   makeconf();
   mesh->set_number_of_atoms(vars->number_of_atoms());
   mesh->make_pair(vars, pairs);
-  const int STEPS = 10000;
-  const int OBSERVE = 100;
+  std::cout << "# N = " << vars->number_of_atoms() << std::endl;
+  std::cout << "# L = " << L << std::endl;
+  std::cout << "# CUTOFF = " << CUTOFF << std::endl;
+  std::cout << "# dt = " << dt << std::endl;
+  const int STEPS = 1000;
+  const int OBSERVE = 10;
   for (int i = 0; i < STEPS; i++) {
     if ( (i % OBSERVE) == 0) {
-      double k = obs->kinetic_energy(vars);
+      double t = obs->temperature(vars);
       double v = obs->potential_energy(vars, pairs);
       std::cout << vars->time << " ";
-      std::cout << k << " ";
-      std::cout << v << " ";
-      std::cout << k + v << std::endl;
-      vars->export_cdview();
+      std::cout << t << " ";
+      std::cout << v << std::endl;
     }
     calculate();
   }
