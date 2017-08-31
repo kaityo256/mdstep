@@ -1,0 +1,7 @@
+main.o: main.cpp md.hpp variables.hpp observer.hpp meshlist.hpp
+md.o: md.cpp md.hpp variables.hpp observer.hpp meshlist.hpp \
+ systemparam.hpp
+meshlist.o: meshlist.cpp systemparam.hpp meshlist.hpp variables.hpp
+observer.o: observer.cpp systemparam.hpp observer.hpp variables.hpp
+systemparam.o: systemparam.cpp systemparam.hpp
+variables.o: variables.cpp systemparam.hpp variables.hpp
