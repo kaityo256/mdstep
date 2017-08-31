@@ -188,10 +188,10 @@ MD::periodic(void) {
 }
 //------------------------------------------------------------------------
 void
-MD::velocity_scaling(const double aimed_temperature){
+MD::velocity_scaling(const double aimed_temperature) {
   double t = obs->temperature(vars);
-  double ratio = sqrt(aimed_temperature/t);
-  for(auto &a: vars->atoms){
+  double ratio = sqrt(aimed_temperature / t);
+  for (auto &a : vars->atoms) {
     a.px *= ratio;
     a.py *= ratio;
     a.pz *= ratio;
@@ -199,13 +199,13 @@ MD::velocity_scaling(const double aimed_temperature){
 }
 //------------------------------------------------------------------------
 void
-MD::langevin(const double aimed_temperature){
+MD::langevin(const double aimed_temperature) {
   static std::mt19937 mt(1);
   const double gamma = 1.0;
   const double T = aimed_temperature;
-  const double D = sqrt(2.0 * gamma * T /dt);
+  const double D = sqrt(2.0 * gamma * T / dt);
   std::normal_distribution<double> nd(0.0, D);
-  for(auto &a: vars->atoms){
+  for (auto &a : vars->atoms) {
     a.px += (-gamma * a.px + nd(mt)) * dt;
     a.py += (-gamma * a.py + nd(mt)) * dt;
     a.pz += (-gamma * a.pz + nd(mt)) * dt;
@@ -213,15 +213,15 @@ MD::langevin(const double aimed_temperature){
 }
 //------------------------------------------------------------------------
 void
-MD::nosehoover(const double aimed_temperature){
+MD::nosehoover(const double aimed_temperature) {
   double t = obs->temperature(vars);
   double at = aimed_temperature;
-  double tau = 0.1; 
-  vars->zeta += (t - at)/ (tau * tau)*dt;
-  for(auto &a: vars->atoms){
-    a.px -= a.px * vars->zeta*dt;
-    a.py -= a.py * vars->zeta*dt;
-    a.pz -= a.pz * vars->zeta*dt;
+  double tau = 0.1;
+  vars->zeta += (t - at) / (tau * tau) * dt;
+  for (auto &a : vars->atoms) {
+    a.px -= a.px * vars->zeta * dt;
+    a.py -= a.py * vars->zeta * dt;
+    a.pz -= a.pz * vars->zeta * dt;
   }
 }
 //------------------------------------------------------------------------
@@ -244,7 +244,7 @@ MD::run(void) {
   mesh->set_number_of_atoms(vars->number_of_atoms());
   mesh->make_pair(vars, pairs);
   const int N = vars->number_of_atoms();
-  const double density = static_cast<double>(N)/L/L/L;
+  const double density = static_cast<double>(N) / L / L / L;
   std::cout << "# N = " << N << std::endl;
   std::cout << "# L = " << L << std::endl;
   std::cout << "# density = " << density << std::endl;
@@ -256,8 +256,8 @@ MD::run(void) {
     if ( (i % OBSERVE) == 0) {
       std::cout << vars->time << " ";
       std::cout << obs->temperature(vars) << " ";
-      std::cout << obs->pressure(vars,pairs) << " ";
-      std::cout << obs->total_energy(vars,pairs) << " ";
+      std::cout << obs->pressure(vars, pairs) << " ";
+      std::cout << obs->total_energy(vars, pairs) << " ";
       std::cout << std::endl;
     }
     calculate();

@@ -103,19 +103,19 @@ MeshList::search(int id, Variables *vars, std::vector<Pair> &pairs) {
   int iz = (id / m / m);
   search_other(id, ix + 1, iy, iz, vars, pairs);
   search_other(id, ix - 1, iy + 1, iz, vars, pairs);
-  search_other(id, ix    , iy + 1, iz, vars, pairs);
+  search_other(id, ix, iy + 1, iz, vars, pairs);
   search_other(id, ix + 1, iy + 1, iz, vars, pairs);
 
-  search_other(id, ix - 1, iy    , iz + 1, vars, pairs);
-  search_other(id, ix    , iy    , iz + 1, vars, pairs);
-  search_other(id, ix + 1, iy    , iz + 1, vars, pairs);
+  search_other(id, ix - 1, iy, iz + 1, vars, pairs);
+  search_other(id, ix, iy, iz + 1, vars, pairs);
+  search_other(id, ix + 1, iy, iz + 1, vars, pairs);
 
   search_other(id, ix - 1, iy - 1, iz + 1, vars, pairs);
-  search_other(id, ix    , iy - 1, iz + 1, vars, pairs);
+  search_other(id, ix, iy - 1, iz + 1, vars, pairs);
   search_other(id, ix + 1, iy - 1, iz + 1, vars, pairs);
 
   search_other(id, ix - 1, iy + 1, iz + 1, vars, pairs);
-  search_other(id, ix    , iy + 1, iz + 1, vars, pairs);
+  search_other(id, ix, iy + 1, iz + 1, vars, pairs);
   search_other(id, ix + 1, iy + 1, iz + 1, vars, pairs);
   // Registration of self box
   int si = indexes[id];
