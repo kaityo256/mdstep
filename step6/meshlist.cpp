@@ -1,9 +1,9 @@
 //------------------------------------------------------------------------
-#include <iostream>
-#include <assert.h>
-#include <algorithm>
-#include "systemparam.hpp"
 #include "meshlist.hpp"
+#include "systemparam.hpp"
+#include <algorithm>
+#include <assert.h>
+#include <iostream>
 //------------------------------------------------------------------------
 MeshList::MeshList(void) {
   const double SL = CUTOFF + MARGIN;
@@ -16,13 +16,12 @@ MeshList::MeshList(void) {
   indexes.resize(number_of_mesh);
 }
 //------------------------------------------------------------------------
-void
-MeshList::make_pair(Variables *vars, std::vector<Pair> &pairs) {
+void MeshList::make_pair(Variables *vars, std::vector<Pair> &pairs) {
   pairs.clear();
   Atom *atoms = vars->atoms.data();
   const int pn = vars->number_of_atoms();
   std::vector<int> particle_position(pn);
-  std::vector<int> pointer(pn);
+  std::vector<int> pointer(number_of_mesh);
   std::fill(particle_position.begin(), particle_position.end(), 0);
   std::fill(count.begin(), count.end(), 0);
   std::fill(pointer.begin(), pointer.end(), 0);
@@ -63,14 +62,13 @@ MeshList::make_pair(Variables *vars, std::vector<Pair> &pairs) {
   vars->make_neighbor_list(pairs);
 }
 //------------------------------------------------------------------------
-void
-MeshList::search_other(int id, int ix, int iy, int iz, Variables *vars, std::vector<Pair> &pairs) {
+void MeshList::search_other(int id, int ix, int iy, int iz, Variables *vars, std::vector<Pair> &pairs) {
   if (ix < 0) ix += m;
-  if (ix >= m ) ix -= m;
+  if (ix >= m) ix -= m;
   if (iy < 0) iy += m;
-  if (iy >= m ) iy -= m;
+  if (iy >= m) iy -= m;
   if (iz < 0) iz += m;
-  if (iz >= m ) iz -= m;
+  if (iz >= m) iz -= m;
   int id2 = ix + iy * m + iz * m * m;
   Atom *atoms = vars->atoms.data();
   for (int k = indexes[id]; k < indexes[id] + count[id]; k++) {
@@ -82,7 +80,7 @@ MeshList::search_other(int id, int ix, int iy, int iz, Variables *vars, std::vec
       double dz = atoms[j].qz - atoms[i].qz;
       adjust_periodic(dx, dy, dz);
       double r2 = (dx * dx + dy * dy + dz * dz);
-      if (r2 > ML2)continue;
+      if (r2 > ML2) continue;
       Pair p;
       if (i < j) {
         p.i = i;
@@ -96,8 +94,7 @@ MeshList::search_other(int id, int ix, int iy, int iz, Variables *vars, std::vec
   }
 }
 //------------------------------------------------------------------------
-void
-MeshList::search(int id, Variables *vars, std::vector<Pair> &pairs) {
+void MeshList::search(int id, Variables *vars, std::vector<Pair> &pairs) {
   int ix = id % m;
   int iy = (id / m) % m;
   int iz = (id / m / m);
@@ -130,7 +127,7 @@ MeshList::search(int id, Variables *vars, std::vector<Pair> &pairs) {
       double dz = atoms[j].qz - atoms[i].qz;
       adjust_periodic(dx, dy, dz);
       double r2 = (dx * dx + dy * dy + dz * dz);
-      if (r2 > ML2)continue;
+      if (r2 > ML2) continue;
       Pair p;
       if (i < j) {
         p.i = i;
